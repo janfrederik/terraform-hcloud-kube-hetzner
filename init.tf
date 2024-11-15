@@ -368,7 +368,30 @@ resource "null_resource" "kustomization" {
       done
       EOF
       EOT
-    ])
+      ],
+      var.enable_cert_manager ? [
+        <<-EOT
+      timeout 300 bash <<EOF
+      until kubectl -n cert-manager wait --for=condition=available --timeout=300s deployment/cert-manager > /dev/null 2>&1; do
+          echo "Waiting for cert-manager deployment..."
+          sleep 2
+      done
+      until kubectl -n cert-manager wait --for=condition=available --timeout=300s deployment/cert-manager-webhook > /dev/null 2>&1; do
+          echo "Waiting for cert-manager-webhook deployment..."
+          sleep 2
+      done
+      until kubectl -n cert-manager wait --for=condition=available --timeout=300s deployment/cert-manager-cainjector > /dev/null 2>&1; do
+          echo "Waiting for cert-manager-cainjector deployment..."
+          sleep 2
+      done
+      until kubectl wait --for=condition=established --timeout=300s crd/clusterissuers.cert-manager.io > /dev/null 2>&1; do
+          echo "Waiting for cert-manager ClusterIssuer CRD..."
+          sleep 2
+      done
+      EOF
+      EOT
+      ] : [],
+    )
   }
 
   depends_on = [
