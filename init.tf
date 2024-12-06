@@ -133,6 +133,7 @@ resource "null_resource" "kustomization" {
       coalesce(var.cluster_autoscaler_version, "N/A"),
       coalesce(var.hetzner_ccm_version, "N/A"),
       coalesce(var.hetzner_csi_version, "N/A"),
+      coalesce(var.csi_driver_smb_version, "N/A"),
       coalesce(var.kured_version, "N/A"),
       coalesce(var.calico_version, "N/A"),
       coalesce(var.cilium_version, "N/A"),
