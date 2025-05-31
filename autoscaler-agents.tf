@@ -109,7 +109,7 @@ data "cloudinit_config" "autoscaler_config" {
             flannel-iface = local.flannel_iface
             node-label    = concat(local.default_agent_labels, [for k, v in var.autoscaler_nodepools[count.index].labels : "${k}=${v}"])
             node-taint    = concat(local.default_agent_taints, [for taint in var.autoscaler_nodepools[count.index].taints : "${taint.key}=${taint.value}:${taint.effect}"])
-            selinux       = true
+            selinux       = ! var.disable_selinux
           },
           var.agent_nodes_custom_config
         ))
@@ -144,7 +144,7 @@ data "cloudinit_config" "autoscaler_legacy_config" {
             flannel-iface = local.flannel_iface
             node-label    = concat(local.default_agent_labels, var.autoscaler_labels)
             node-taint    = concat(local.default_agent_taints, var.autoscaler_taints)
-            selinux       = true
+            selinux       = ! var.disable_selinux
           },
           var.agent_nodes_custom_config
         ))
