@@ -627,7 +627,7 @@ variable "enable_metrics_server" {
 
 variable "initial_k3s_channel" {
   type        = string
-  default     = "v1.31" # Please update kube.tf.example too when changing this variable
+  default     = "v1.31" # Please update kube.tf.example too when changing this variable, as well as the default for var.cluster_autoscaler_version
   description = "Allows you to specify an initial k3s channel. See https://update.k3s.io/v1-release/channels for available channels."
 
   validation {

@@ -20,7 +20,7 @@ data "github_release" "kured" {
   retrieve_by = "latest"
 }
 
-// github_release for kured
+// github_release for calico
 data "github_release" "calico" {
   count       = var.calico_version == null && var.cni_plugin == "calico" ? 1 : 0
   repository  = "calico"
